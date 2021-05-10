@@ -1,0 +1,22 @@
+const express=require('express')//npm install express
+
+const app=express()//object for express
+
+app.listen(3000)//port to display o/p
+
+//gettreatment API with query parameters
+app.get('/gettreatment/',(request,response)=>{
+const {symptoms=""}=request.query//list of symptoms from query parameters
+console.log(symptoms)//['fever','cold','cough']
+//checking if all symptoms are there or not
+if (symptoms.includes('fever')&&symptoms.includes('cold')&&symptoms.includes('cough')){
+return response.send({
+'status': 'critical',
+'treatment': 'consult doctor immediately'
+})//if yes
+}return response.send({'status': 'normal',
+'treatment': 'no need'})
+})//if no
+
+
+//npm install nodemon -- for restarting the server on its own after any changes made and saved
