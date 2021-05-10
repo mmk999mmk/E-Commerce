@@ -1,3 +1,5 @@
+//file named as app.js
+
 const express=require('express')//npm install express
 
 const app=express()//object for express
@@ -20,3 +22,4 @@ return response.send({
 
 
 //npm install nodemon -- for restarting the server on its own after any changes made and saved
+//nodemon app.js -- to run the file and the o/p is attached in the below file with test cases
