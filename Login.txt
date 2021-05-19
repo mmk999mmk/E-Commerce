@@ -1,0 +1,60 @@
+import {Component} from 'react'
+import Cookies from 'js-cookie'
+
+class Login extends Component{
+    state={uname:'',pword:'',err:''}
+    
+    username=(event)=>{
+        this.setState({uname:event.target.value})
+    }
+    
+    password=(event)=>{
+        this.setState({pword:event.target.value})
+    }
+    
+    usernameFn=()=>{
+        <label htmlFor="uname">USERNAME</label>
+        <input type="text" value={uname} id="uname" onChange={this.username}/>
+    }
+    
+    passwordFn=()=>{
+        <label htmlFor="pword">PASSWORD</label>
+        <input type="password" value={pword} id="pword" onChange={this.password}/>
+    }
+    
+    Submit=async(event)=>{
+        event.preventDefault()
+        const {history}=this.props
+        const {uname,pword}=this.state
+        const userDetails={uname,pword}
+        const options={
+            method:"GET"
+            body:JSON.Stringify(userDetails)
+        }
+        const response=await fetch("https://apis.ccbp.in/login",options)
+        const res=await response
+        if (res.ok===true){
+            Cookies.set("jwt_token",res.jwt_token,{expiry:7})
+            history.replace("/")
+        }else{
+            this.setState({err:res.error_msg})
+        }
+    }
+    
+render(){
+    const {err}=this.state
+const jwtToken=Cookies.get("jwt_token")
+if (jwtToken){
+return <Redirect to="/"/>
+}
+    return(<div>
+    <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png" alt="website logo"/>
+    <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png" alt ="website login"/>
+    <div>{this.usernameFn()}</div>
+    <div>{this.passwordFn()}</div>
+    <button type="submit" onSubmit={this.Submit}>Login</button>
+    <p>*{err}</p>
+    </div>)
+}
+}
+export default Login

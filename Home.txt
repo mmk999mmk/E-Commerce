@@ -1,0 +1,23 @@
+import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
+import Header from '../Header'
+import Cookies from "js-cookie"
+
+class Home extends Component{
+render(){
+const jwtToken=Cookies.get("jwt_token")
+if (jwtToken){
+return(<>
+    <div>
+    <Header/>
+    <h1>Clothes that get you noticed</h1>
+    <p>Fashion is the part of daily air and it doesn't quite help</p>
+    <button>shop Now</button>
+    </div>
+    <div><img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-home-img.png" alt="clothes that get you noticed" /></div>
+    </>)
+}return <Redirect to="/login"/>
+    
+}
+}
+export default Home

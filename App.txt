@@ -1,0 +1,17 @@
+import {Switch,Route} from 'react-router-dom'
+import Home from './Component/Home'
+import Login from './Component/Login'
+import Products from './Component/Products'
+import Cart from './Component/Cart'
+import NotFound from './Component/NotFound'
+
+const App=()=>(
+    <Switch>
+     <Route exact path="/" Component={Home}/>
+<Route  path="/login" Component={Login}/>
+     <Route path="/products" Component={Products}/>
+     <Route path="/cart" Component={Cart}/>
+     <Route Component={NotFound}/>
+    </Switch>)
+    
+export default App
