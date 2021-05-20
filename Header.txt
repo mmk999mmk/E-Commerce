@@ -1,22 +1,29 @@
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {Component} from 'react'
-import Cookies from "js-cookie"
+import Cookies from 'js-cookie'
 
-class Header extends Component{
-    click=()=>{
-        const {history}=this.props
-Cookies.remove("jwt_token")
-        history.replace('/login')
-    }
-    
-render(){
-    return(<div>
-    <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png" alt="website logo"/>
-    <Link to="/">Home<Link>
-    <Link to="/products">Products<Link>
-    <Link to="/cart">Cart<Link>
-    <button onClick={this.click}>Logout</button>
-    </div>)
+class Header extends Component {
+  click = () => {
+    const {history} = this.props
+    Cookies.remove('jwt_token')
+    history.replace('/login')
+  }
+
+  render() {
+    return (
+      <>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+          alt="website logo"
+        />
+        <Link to="/">Home</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/cart">Cart</Link>
+        <button onClick={this.click} type="submit">
+          Logout
+        </button>
+      </>
+    )
+  }
 }
-}
-export default Header
+export default withRouter(Header)
