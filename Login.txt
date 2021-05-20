@@ -1,60 +1,83 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 
-class Login extends Component{
-    state={uname:'',pword:'',err:''}
-    
-    username=(event)=>{
-        this.setState({uname:event.target.value})
-    }
-    
-    password=(event)=>{
-        this.setState({pword:event.target.value})
-    }
-    
-    usernameFn=()=>{
+class Login extends Component {
+  state = {uname: '', pword: '', err: ''}
+
+  username = event => {
+    this.setState({uname: event.target.value})
+  }
+
+  password = event => {
+    this.setState({pword: event.target.value})
+  }
+
+  usernameFn = () => {
+    const {uname} = this.state
+    return (
+      <>
         <label htmlFor="uname">USERNAME</label>
-        <input type="text" value={uname} id="uname" onChange={this.username}/>
-    }
-    
-    passwordFn=()=>{
+        <input type="text" value={uname} id="uname" onChange={this.username} />
+      </>
+    )
+  }
+
+  passwordFn = () => {
+    const {pword} = this.state
+    return (
+      <>
         <label htmlFor="pword">PASSWORD</label>
-        <input type="password" value={pword} id="pword" onChange={this.password}/>
+        <input
+          type="password"
+          value={pword}
+          id="pword"
+          onChange={this.password}
+        />
+      </>
+    )
+  }
+
+  Submit = async event => {
+    event.preventDefault()
+    const {history} = this.props
+    const {uname, pword} = this.state
+    const userDetails = {username: uname, password: pword}
+    console.log(JSON.stringify(userDetails))
+    const url = 'https://apis.ccbp.in/login'
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(userDetails),
     }
-    
-    Submit=async(event)=>{
-        event.preventDefault()
-        const {history}=this.props
-        const {uname,pword}=this.state
-        const userDetails={uname,pword}
-        const options={
-            method:"GET"
-            body:JSON.Stringify(userDetails)
-        }
-        const response=await fetch("https://apis.ccbp.in/login",options)
-        const res=await response
-        if (res.ok===true){
-            Cookies.set("jwt_token",res.jwt_token,{expiry:7})
-            history.replace("/")
-        }else{
-            this.setState({err:res.error_msg})
-        }
+    const response = await fetch(url, options)
+    const data = await response.json()
+    if (response.ok === true) {
+      Cookies.set('jwt_token', data.jwt_token, {expires: 7})
+      history.replace('/')
+    } else {
+      this.setState({err: data.error_msg})
     }
-    
-render(){
-    const {err}=this.state
-const jwtToken=Cookies.get("jwt_token")
-if (jwtToken){
-return <Redirect to="/"/>
-}
-    return(<div>
-    <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png" alt="website logo"/>
-    <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png" alt ="website login"/>
-    <div>{this.usernameFn()}</div>
-    <div>{this.passwordFn()}</div>
-    <button type="submit" onSubmit={this.Submit}>Login</button>
-    <p>*{err}</p>
-    </div>)
-}
+  }
+
+  render() {
+    const {err} = this.state
+    return (
+      <div>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+          alt="website logo"
+        />
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
+          alt="website login"
+        />
+        <form onSubmit={this.Submit}>
+          <div>{this.usernameFn()}</div>
+          <div>{this.passwordFn()}</div>
+          <button type="submit">Login</button>
+          <p>*{err}</p>
+        </form>
+      </div>
+    )
+  }
 }
 export default Login
