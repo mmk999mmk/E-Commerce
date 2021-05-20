@@ -1,19 +1,25 @@
 import {Component} from 'react'
 import {Redirect} from 'react-router-dom'
-import Header from '../Header'
 import Cookies from 'js-cookie'
+import Header from '../Header'
 
-class Cart extends Component{
-render(){
-const jwtToken=Cookies.get("jwt_token")
-if (jwtToken){
-    return(
-    <div>
-    <Header/>
-    <div><img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-cart-img.png" alt="cart" /></div>
-    </div>
-    )
-}return <Redirect to="/login"/>
-}
+class Cart extends Component {
+  render() {
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken) {
+      return (
+        <div>
+          <Header />
+          <div>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-cart-img.png"
+              alt="cart"
+            />
+          </div>
+        </div>
+      )
+    }
+    return <Redirect to="/login" />
+  }
 }
 export default Cart
